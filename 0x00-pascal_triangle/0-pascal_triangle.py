@@ -1,3 +1,5 @@
+#!/usr/bin/python3
+
 def pascal_triangle(n):
     """
     Generate Pascal's triangle up to the nth row.
@@ -14,8 +16,8 @@ def pascal_triangle(n):
     for i in range(1, n):
         row = [1]
         prev_row = result[i-1]
-    for j in range(1, i):
-        row.append(prev_row[j-1] + prev_row[j])
+        for j in range(1, i):
+            row.append(prev_row[j-1] + prev_row[j])
         row.append(1)
         result.append(row)
 
