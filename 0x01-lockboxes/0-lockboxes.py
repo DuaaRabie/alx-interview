@@ -1,15 +1,14 @@
 #!/usr/bin/python3
-""" Unlock boxes """
-
+""" unlock boxes """
 
 def canUnlockAll(boxes):
     """ Unlock boxes"""
-    unlocked_boxes = set()
-    for i, box in enumerate(boxes):
-        if i not in unlocked_boxes:
-            unlocked_boxes.add(i)
-            # Check all keys in the current box
-            for key in box:
-                if key not in unlocked_boxes:
-                    unlocked_boxes.add(key)
-    return len(unlocked_boxes) == len(boxes)
+    unlocked = [False] * len(boxes)
+    unlocked[0] = True
+    
+    for i in range(len(boxes)):
+        for key in boxes[i]:
+            if 0 <= key < len(boxes) and i != key:
+                unlocked[key] = True
+    
+    return all(unlocked)
