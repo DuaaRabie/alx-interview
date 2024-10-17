@@ -8,13 +8,10 @@ def minOperations(n):
     if n <= 0:
         return 0
 
-    # Calculate LCM of powers of 2 until we reach or exceed n
-    k = 0
-    while True:
-        lcm_value = math.lcm(2**k, 2**(k+1))
-        if lcm_value >= n:
-            break
-        k += 1
+    # Convert n to binary and remove the '0b' prefix
+    bin_n = bin(n)[2:]
+    
+    # Find the position of the leftmost '1'
+    max_power = len(bin_n) - 1 - bin_n.rfind('1')
 
-    # Check if this LCM equals n
-    return k if lcm_value == n else 0
+    return max_power if max_power >= 0 else 0
