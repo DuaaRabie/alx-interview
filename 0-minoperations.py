@@ -6,7 +6,7 @@ def minOperations(n):
     if n == 0:
         return 0
     
-    operations = 1  # Initial copy operation
+    operations = 0  # Initial copy operation
     
     # Loop through powers of 2 up to n
     power_of_two = 2
@@ -14,4 +14,4 @@ def minOperations(n):
         operations += 1  # Add paste operation
         power_of_two *= 2
     
-    return operations
+    return operations + 1
