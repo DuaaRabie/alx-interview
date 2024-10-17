@@ -6,18 +6,13 @@ import math
 def minOperations(n):
     if n <= 0:
         return 0
-
-    chars = 1
+    
+    factor = 2
     operations = 0
 
-    while chars < n:
-        if chars % n == 0:
-            operations += 2
-            copied = chars * 2
-        else:
-            operations += 1
-            copied = chars + 1
-        
-        chars = copied
-
+    while n > 1:
+        while n % factor == 0:
+            operations += factor
+            n //= factor
+        factor += 1
     return operations
