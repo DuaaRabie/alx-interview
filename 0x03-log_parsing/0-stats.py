@@ -1,7 +1,12 @@
 #!/usr/bin/python3
+""" Log parsing """
+
+
 import sys
 
+
 def main():
+    """ main function """
     total_file_size = 0
     status_codes_count = {
         200: 0,
@@ -41,6 +46,7 @@ def main():
         print_metrics(total_file_size, status_codes_count)
 
 def print_metrics(total_file_size, status_codes_count):
+    """ print function """
     print(f"File size: {total_file_size}")
     for code in sorted(status_codes_count):
         if status_codes_count[code] > 0:
