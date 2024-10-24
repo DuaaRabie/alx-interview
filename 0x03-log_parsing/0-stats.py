@@ -25,7 +25,9 @@ def main():
             line_count += 1
             parts = line.split()
 
-            if len(parts) < 7 or parts[1] != '-' or parts[2] != '[' or parts[4] != '"GET' or parts[6] != 'HTTP/1.1"':
+            if len(parts) < 7 or parts[1] != '-' or\
+                    parts[2] != '[' or parts[4] != '"GET' or\
+                    parts[6] != 'HTTP/1.1"':
                 continue
 
             try:
@@ -45,12 +47,14 @@ def main():
     except KeyboardInterrupt:
         print_metrics(total_file_size, status_codes_count)
 
+
 def print_metrics(total_file_size, status_codes_count):
     """ print function """
     print(f"File size: {total_file_size}")
     for code in sorted(status_codes_count):
         if status_codes_count[code] > 0:
             print(f"{code}: {status_codes_count[code]}")
+
 
 if __name__ == "__main__":
     main()
