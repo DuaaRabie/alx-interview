@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-""" Log parsing """
+""" log parsing """
 
 
 import sys
@@ -25,36 +25,44 @@ def main():
             line_count += 1
             parts = line.split()
 
-            if len(parts) < 7 or parts[1] != '-' or\
-                    parts[2] != '[' or parts[4] != '"GET' or\
-                    parts[6] != 'HTTP/1.1"':
+            if len(parts) < 7:
                 continue
 
+            # Extract components
+            ip = parts[0]
+            date = parts[2].strip('[]')
+            request = parts[3] + " " + parts[4] + " " + parts[5]  # "GET /projects/260 HTTP/1.1"
+            status_code = parts[6]
             try:
-                status_code = int(parts[5])
-                file_size = int(parts[6])
+                file_size = int(parts[7])
             except (ValueError, IndexError):
                 continue
 
+            # Update total file size
             total_file_size += file_size
 
+            # Update status code counts
             if status_code in status_codes_count:
-                status_codes_count[status_code] += 1
+                status_codes_count[int(status_code)] += 1
 
+            # Print metrics every 10 lines
             if line_count % 10 == 0:
                 print_metrics(total_file_size, status_codes_count)
 
     except KeyboardInterrupt:
         print_metrics(total_file_size, status_codes_count)
 
-
 def print_metrics(total_file_size, status_codes_count):
     """ print function """
     print(f"File size: {total_file_size}")
-    for code in sorted(status_codes_count):
+    
+    # Sort status codes
+    sorted_status_codes = sorted(status_codes_count.keys(), key=lambda x: int(x))
+    
+    # Print each status code and count
+    for code in sorted_status_codes:
         if status_codes_count[code] > 0:
             print(f"{code}: {status_codes_count[code]}")
-
 
 if __name__ == "__main__":
     main()
