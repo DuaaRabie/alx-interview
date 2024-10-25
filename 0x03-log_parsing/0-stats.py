@@ -42,7 +42,7 @@ def main():
 
     except BrokenPipeError:
         print("Connection closed.")
-    finally:
+    except KeyboardInterrupt::
         print(f"File size: {total_file_size}")
         sorted_status_codes = \
             sorted(status_counts.keys(), key=lambda x: int(x))
