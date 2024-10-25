@@ -33,13 +33,12 @@ def main():
                 status_counts[str(status_code)] += 1
 
                 if line_num % 10 == 0 or line_num == 1:
-                    print(f"File size: {total_file_size}")
+                    print(f"File size: {total_file_size}", end="\n")
                     sorted_status_codes = \
                         sorted(status_counts.keys(), key=lambda x: int(x))
                     for code in sorted_status_codes:
                         if status_counts[code] > 0:
                             print(f"{code}: {status_counts[code]}")
-                    print()  # Newline for better readability
 
     except BrokenPipeError:
         print("Connection closed.")
