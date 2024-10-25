@@ -42,8 +42,6 @@ def main():
 
     except BrokenPipeError:
         print("Connection closed.")
-    except KeyboardInterrupt:
-        print("")
     finally:
         print(f"File size: {total_file_size}")
         sorted_status_codes = \
@@ -51,7 +49,8 @@ def main():
         for code in sorted_status_codes:
             if status_counts[code] > 0:
                 print(f"{code}: {status_counts[code]}")
-
+        except KeyboardInterrupt:
+            print("")
 
 if __name__ == "__main__":
     main()
