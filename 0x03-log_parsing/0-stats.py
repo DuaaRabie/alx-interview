@@ -8,14 +8,9 @@ import sys
 
 def parse_line(line):
     """ parse func """
-    pattern = r"""
-    ^(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})
-     - \[(.*?)\]
-     "GET /projects/260 HTTP/1.1"
-    (\d+)
-    (\d+)
-    $"""
-
+    pattern = (
+        r'^(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}) - \[(.*?)\] '
+        r'"GET /projects/260 HTTP/1.1" (\d+) (\d+)$')
     match = re.match(pattern, line.strip())
     if match:
         ip, date, status_code, file_size = match.groups()
