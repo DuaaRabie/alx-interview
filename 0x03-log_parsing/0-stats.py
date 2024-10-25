@@ -7,9 +7,15 @@ import sys
 
 
 def parse_line(line):
-    pattern = r'''
-    ^(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}) -
-    \[(.*?)\] "GET /projects/260 HTTP/1.1" (\d+) (\d+)$'''
+    """ parse func """
+    pattern = r"""
+    ^(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})
+     - \[(.*?)\]
+     "GET /projects/260 HTTP/1.1"
+    (\d+)
+    (\d+)
+    $"""
+
     match = re.match(pattern, line.strip())
     if match:
         ip, date, status_code, file_size = match.groups()
@@ -18,6 +24,7 @@ def parse_line(line):
 
 
 def main():
+    """ main func"""
     total_file_size = 0
     status_counts =\
         {str(code): 0 for code in [200, 301, 400, 401, 403, 404, 405, 500]}
@@ -32,7 +39,7 @@ def main():
 
                 if line_num % 10 == 0 or line_num == 1:
                     print(f"File size: {total_file_size}")
-                    sorted_status_codes =\
+                    sorted_status_codes = \
                         sorted(status_counts.keys(), key=lambda x: int(x))
                     for code in sorted_status_codes:
                         if status_counts[code] > 0:
@@ -42,9 +49,8 @@ def main():
     except BrokenPipeError:
         print("Connection closed.")
     finally:
-        print("\nFinal statistics:")
         print(f"File size: {total_file_size}")
-        sorted_status_codes =\
+        sorted_status_codes = \
             sorted(status_counts.keys(), key=lambda x: int(x))
         for code in sorted_status_codes:
             if status_counts[code] > 0:
