@@ -49,7 +49,6 @@ def main():
         for code in sorted_status_codes:
             if status_counts[code] > 0:
                 print(f"{code}: {status_counts[code]}")
-        sys.exit()
     finally:
         if KeyboardInterrupt:
             sys.exit()
