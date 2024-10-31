@@ -4,28 +4,46 @@
 
 def validUTF8(data):
     """ checks utf-8 validation """
-    byte_count = 0
-    for byte in data:
-        # Check if it's a continuation byte
-        if byte >= 128:
-            # Count leading zeros
-            leading_zeros = 0
-            while (byte & (1 << (7 - leading_zeros))) == 0:
-                leading_zeros += 1
+    # Initialize variables
+    i = 0
+    n_bytes = 0
+    max_bytes = 0
 
-            # Check if it's the first byte of a multi-byte sequence
-            if leading_zeros == 0:
-                return False
+    # Iterate through the data
+    while i < len(data):
+        # Get the current byte
+        byte = data[i]
 
-            # Check if it's the second or third byte
-            if leading_zeros > 1:
-                return False
+        # Check if it's a start of sequence
+        if (byte & 0x80) == 0:
+            # 1-byte sequence
+            max_bytes = 1
+        elif (byte & 0xE0) == 0xC0:
+            # 2-byte sequence
+            max_bytes = 2
+        elif (byte & 0xF0) == 0xE0:
+            # 3-byte sequence
+            max_bytes = 3
+        elif (byte & 0xF8) == 0xF0:
+            # 4-byte sequence
+            max_bytes = 4
+        else:
+            # Invalid byte
+            return False
 
-            # Update byte count
-            byte_count += 1 + leading_zeros
+        # Check if we've exceeded the maximum allowed bytes
+        if n_bytes + max_bytes > 4:
+            return False
 
-    # Check if the total byte count matches the expected count
-    if byte_count % 4 != 0:
+        # Increment n_bytes counter
+        n_bytes += 1
+
+        # Move to the next byte
+        i += 1
+
+    # Check if we've processed all bytes
+    if n_bytes != max_bytes:
         return False
 
+    # If we reach here, the data is valid UTF-8
     return True
