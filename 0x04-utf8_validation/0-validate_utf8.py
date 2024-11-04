@@ -1,5 +1,6 @@
 #!/usr/bin/python3
 """ UTF-8 Validation """
+""" check Commit df6c627 is another way to solve it """
 
 
 def validUTF8(data):
@@ -12,11 +13,14 @@ def validUTF8(data):
 
         # expected bytes
         if expected_bytes == 0:
-            while (byte & (1 << (7 - expected_bytes))) != 0:
-                expected_bytes += 1
-            if expected_bytes in [0, 2, 3, 4]:
-                if expected_bytes != 0:
-                    expected_bytes -= 1
+            if (byte >> 7) == 0b0:
+                expected_bytes = 0
+            elif (byte >> 5) == 0b110:
+                expected_bytes = 1
+            elif (byte >> 4) == 0b1110:
+                expected_bytes = 2
+            elif (byte >> 3) == 0b11110:
+                expected_bytes = 3
             else:
                 return False
         else:
