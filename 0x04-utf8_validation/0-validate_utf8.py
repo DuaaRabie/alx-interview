@@ -12,17 +12,19 @@ def validUTF8(data):
 
         # expected bytes
         if expected_bytes == 0:
-            while (byte & (1 << (7 - expected_bytes))) != 0:
-                expected_bytes += 1
-
-            # Check if it's the first byte of a multi-byte sequence
-            if expected_bytes > 4:
+            if (byte >> 7) == 0b0:
+                expected_bytes = 0
+            elif (byte >> 5) == 0b110:
+                expected_bytes = 1
+            elif (byte >> 4) == 0b1110:
+                expected_bytes = 2
+            elif (byte >> 3) == 0b11110:
+                expected_bytes = 3
+            else:
                 return False
-
         else:
-            expected_bytes -= 1
             if (byte >> 6) != 0b10:
                 return False
             expected_bytes -= 1
 
-    return True
+    return expected_bytes == 0
