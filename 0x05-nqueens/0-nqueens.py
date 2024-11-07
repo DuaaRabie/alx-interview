@@ -6,58 +6,56 @@ import sys
 
 
 def print_solution(board):
-    """Prints the solution in the required format."""
-    solution = []
-    for row in board:
-        solution.append([i for i in range(len(board)) if i == row])
-    print(solution)
+    """Prints the board configuration where each row
+    corresponds to the column position of the queen."""
+    print([[i, board[i]] for i in range(len(board))])
 
 
-def is_valid(board, row, col):
-    """Checks if it's valid to place a queen at (row, col)."""
-    for i in range(row):
-        # Check column conflict and diagonal conflicts
-        if board[i] == col or abs(board[i] - col) == abs(i - row):
+def is_safe(board, row, col, N):
+    """Check if it's safe to place a queen at (row, col)"""
+    # Check for column conflicts
+    for r in range(row):
+        if board[r] == col or \
+           board[r] - r == col - row or \
+           board[r] + r == col + row:
             return False
     return True
 
 
-def solve_nqueens(board, row, n):
-    """Solves the N Queens problem using backtracking."""
-    if row == n:
-        print_solution(board)
+def solve_nqueens(N, board, row):
+    """Backtracking function to solve the N Queens problem."""
+    if row == N:  # All queens are placed
+        print_solution(board)  # Print the solution
         return
-    for col in range(n):
-        if is_valid(board, row, col):
-            board[row] = col
-            solve_nqueens(board, row + 1, n)
+    for col in range(N):
+        if is_safe(board, row, col, N):
+            board[row] = col  # Place the queen
+            solve_nqueens(N, board, row + 1)
 
 
-def nqueens(n):
-    """Solves the N Queens problem."""
-    if not isinstance(n, int):
-        print("N must be a number")
-        sys.exit(1)
-    if n < 4:
-        print("N must be at least 4")
-        sys.exit(1)
-
-    # Start the backtracking process with an empty board
-    board = [-1] * n
-    solve_nqueens(board, 0, n)
+def nqueens(N):
+    """Solve the N Queens problem."""
+    board = [-1] * N
+    solve_nqueens(N, board, 0)
 
 
 def main():
-    """Main function to handle command line arguments."""
+    """Main entry point"""
     if len(sys.argv) != 2:
         print("Usage: nqueens N")
         sys.exit(1)
+
     try:
-        n = int(sys.argv[1])
+        N = int(sys.argv[1])
     except ValueError:
         print("N must be a number")
         sys.exit(1)
-    nqueens(n)
+
+    if N < 4:
+        print("N must be at least 4")
+        sys.exit(1)
+
+    nqueens(N)
 
 
 if __name__ == "__main__":
