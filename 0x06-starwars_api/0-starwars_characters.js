@@ -1,44 +1,42 @@
 #!/usr/bin/env node
-const request = require('request');
-const movieId = process.argv[2];
 
+// Import the request module
+const request = require('request')
+
+// Get the movie ID from command line arguments
+const movieId = process.argv[2]
+
+// Check if a movie ID was provided
 if (!movieId) {
-  console.log('Please provide a Movie ID as an argument');
-  process.exit(1);
+  console.error('Please provide a Movie ID as the first argument')
+  process.exit(1)
 }
 
-// URL to get the movie details based on the Movie ID
-const url = `https://swapi-api.alx-tools.com/api/films/${movieId}/`;
+// Define the URL for the Star Wars API with the given movie ID
+const url = `https://swapi-api.hbtn.io/api/films/${movieId}/`
 
-request(url, (error, response, body) => {
-  if (error) {
-    console.error('Error:', error);
-    return;
+// Make a GET request to the Star Wars API for the specified movie
+request(url, (err, res, body) => {
+  if (err) {
+    console.error('Error:', err)
+    return
   }
 
-  if (response.statusCode !== 200) {
-    console.error('Failed to retrieve movie data');
-    return;
-  }
+  // Parse the response body as JSON
+  const movieData = JSON.parse(body)
 
-  const movieData = JSON.parse(body);
-  const characterUrls = movieData.characters;
+  // Loop through each character URL in the "characters" list
+  movieData.characters.forEach(characterUrl => {
+    // Make a GET request for each character
+    request(characterUrl, (err, res, body) => {
+      if (err) {
+        console.error('Error:', err)
+        return
+      }
 
-  // Function to get each character's name and print it in order
-  const getCharacterName = (url) => {
-    return new Promise((resolve, reject) => {
-      request(url, (error, response, body) => {
-        if (error) reject(error);
-        else resolve(JSON.parse(body).name);
-      });
-    });
-  };
-
-  // Fetch character names in the same order as the list
-  Promise.all(characterUrls.map(getCharacterName))
-    .then((characterNames) => {
-      characterNames.forEach((name) => console.log(name));
+      // Parse the character data and log the character's name
+      const characterData = JSON.parse(body)
+      console.log(characterData.name)
     })
-    .catch((error) => console.error('Error fetching character names:', error));
-});
-
+  })
+})
