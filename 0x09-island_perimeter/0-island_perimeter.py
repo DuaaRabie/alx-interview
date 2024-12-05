@@ -21,7 +21,7 @@ def island_perimeter(grid):
                 if inner_index < len(row) - 1:
                     if row[inner_index + 1] == 0:
                         perimeter += 1
-                if index == 0:
+                if index == 0 or not prev_row_land:
                     perimeter += 1
             else:
                 if inner_index in prev_row_land:
