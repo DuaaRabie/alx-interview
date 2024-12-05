@@ -16,7 +16,12 @@ def island_perimeter(grid):
                     perimeter += 1
                 if inner_index not in prev_row_land:
                     perimeter += 1
-                if row[inner_index + 1] == 0 or inner_index == len(row) + 1:
+                if inner_index == len(row) + 1:
+                    perimeter += 1
+                if inner_index < len(row) - 1:
+                    if row[inner_index + 1] == 0:
+                        perimeter += 1
+                if index == 0:
                     perimeter += 1
             else:
                 if inner_index in prev_row_land:
