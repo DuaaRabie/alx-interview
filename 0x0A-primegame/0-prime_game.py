@@ -11,6 +11,7 @@ def sieve_of_eratosthenes(n):
     finally be false if i is
     Not a prime, else true. """
     prime = [True for i in range(n+1)]
+    prime[0], prime[1] = False, False
     p = 2
     while (p * p <= n):
         # If prime[p] is not
@@ -20,42 +21,44 @@ def sieve_of_eratosthenes(n):
             for i in range(p * p, n+1, p):
                 prime[i] = False
         p += 1
-    return prime
+    return [p for p in range(2, n + 1) if prime[p]]
 
 
 def isWinner(x, nums):
     """ get the winner"""
-    primes = sieve_of_eratosthenes(max(nums))
     maria_wins = 0
     ben_wins = 0
-
-    for _ in range(x):
-        remaining = set(nums)
-        while remaining:
-            if len(remaining) == 1:
-                chosen = list(remaining)[0]
-                removed = {chosen}
-                break
-
-            prime = min(remaining)
-            if prime not in primes:
-                prime = next((p for p in primes if p > prime), None)
-
-            removed = set()
-            for num in remaining:
-                if num % prime == 0:
-                    removed.add(num)
-
-            remaining -= removed
-
-        if len(remaining) == 1:
-            maria_wins += 1
-        else:
+    # counts the turns
+    nums = nums[:x]
+    # loop in the nums
+    for n in nums:
+        if n == 1:
             ben_wins += 1
+            continue
+
+        numbers = list(range(1, n + 1))
+        numbers_primes = sieve_of_eratosthenes(n)
+        remaining = numbers[:]
+        current_player = "Maria"
+        # loop in the range
+        while remaining:
+            for prime in numbers_primes:
+                if prime in remaining:
+                    remaining = [num for num in remaining if num % prime != 0]
+                    if current_player == "Maria":
+                        current_player = "Ben"
+                    else:
+                        current_player = "Maria"
+            else:
+                if current_player == "Maria":
+                    ben_wins += 1
+                else:
+                    maria_wins += 1
+                break
 
     if maria_wins > ben_wins:
         return "Maria"
     elif ben_wins > maria_wins:
         return "Ben"
     else:
-        None
+        return None
