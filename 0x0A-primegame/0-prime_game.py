@@ -20,7 +20,7 @@ def isWinner(x, nums):
         primes = sieve_of_eratosthenes(max(nums))
         return [p for p in primes if p in nums]
 
-    winner = "Ben"
+    winner = "Maria"
     for _ in range(x):
         nums = sorted(nums, reverse=True)
         primes = removeMultiples(nums)
