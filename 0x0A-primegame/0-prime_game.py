@@ -2,32 +2,25 @@
 """Prime Game"""
 
 
+def sieve_of_eratosthenes(limit):
+    """ get prime numbers"""
+    primes = [True] * (limit + 1)
+    primes[0], primes[1] = False, False
+    for i in range(2, int(limit ** 0.5) + 1):
+        if primes[i]:
+            for j in range(i * i, limit + 1, i):
+                primes[j] = False
+    return [i for i in range(2, limit + 1) if primes[i]]
+
+
 def isWinner(x, nums):
-    def isPrime(n):
-        """ get prime numbers """
-        if n <= 1:
-            return False
-        if n <= 3:
-            return True
-        if n % 2 == 0 or n % 3 == 0:
-            return False
-        i = 5
-        while i * i <= n:
-            if n % i == 0 or n % (i + 2) == 0:
-                return False
-            i += 6
-        return True
-
+    """ get the winner"""
     def removeMultiples(n):
-        """ remove multiplications """
-        primes = []
-        for num in nums:
-            if isPrime(num):
-                primes.append(num)
-        return primes
+        """ Remove multiplies """
+        primes = sieve_of_eratosthenes(max(nums))
+        return [p for p in primes if p in nums]
 
-    winner = "ben"
-
+    winner = "Ben"
     for _ in range(x):
         nums = sorted(nums, reverse=True)
         primes = removeMultiples(nums)
@@ -36,10 +29,10 @@ def isWinner(x, nums):
             break
 
         if winner == "Maria":
-            prime = primes.pop(0)
+            prime = primes[0]
             nums = [num for num in nums if num != prime and num % prime != 0]
         else:
-            prime = primes[0]
+            prime = primes[-1]
             nums = [num for num in nums if num != prime and num % prime != 0]
 
         if len(primes) > 0:
