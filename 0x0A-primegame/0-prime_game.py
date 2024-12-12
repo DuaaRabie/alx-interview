@@ -26,6 +26,10 @@ def sieve_of_eratosthenes(n):
 
 def isWinner(x, nums):
     """ get the winner"""
+    if nums is None:
+        return None
+    if x == 0:
+        return None
     maria_wins = 0
     ben_wins = 0
     # counts the turns
