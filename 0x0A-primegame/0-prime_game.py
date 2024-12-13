@@ -26,7 +26,7 @@ def sieve_of_eratosthenes(n):
 
 def isWinner(x, nums):
     """ get the winner"""
-    if nums is None or nums == []:
+    if nums is None:
         return None
     if x <= 0:
         return None
@@ -43,9 +43,8 @@ def isWinner(x, nums):
         if n <= 0:
             continue
 
-        numbers = list(range(1, n + 1))
         numbers_primes = sieve_of_eratosthenes(n)
-        remaining = numbers[:]
+        remaining = list(range(1, n + 1))
         current_player = "Maria"
         # loop in the range
         while remaining:
