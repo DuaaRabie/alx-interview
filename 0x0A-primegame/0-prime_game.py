@@ -56,12 +56,11 @@ def isWinner(x: int, nums: List[int]) -> str:
                         current_player = "Ben"
                     else:
                         current_player = "Maria"
+            if current_player == "Maria":
+                ben_wins += 1
             else:
-                if current_player == "Maria":
-                    ben_wins += 1
-                else:
-                    maria_wins += 1
-                break
+                maria_wins += 1
+            break
 
     if maria_wins > ben_wins:
         return "Maria"
