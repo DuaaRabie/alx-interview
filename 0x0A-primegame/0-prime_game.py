@@ -45,13 +45,13 @@ def isWinner(x: int, nums: List[int]) -> str:
             continue
 
         numbers_primes = sieve_of_eratosthenes(n)
+        remaining = list(range(1, n + 1))
         current_player = "Maria"
         # loop in the range
-        for _ in range(1, n + 1):
+        while remaining:
             for prime in numbers_primes:
-                if prime in range(1, n + 1):
-                    remaining =\
-                        [num for num in range(1, n + 1) if num % prime != 0]
+                if prime in remaining:
+                    remaining = [num for num in remaining if num % prime != 0]
                     if current_player == "Maria":
                         current_player = "Ben"
                     else:
