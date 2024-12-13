@@ -28,7 +28,7 @@ def isWinner(x, nums):
     """ get the winner"""
     if nums is None:
         return None
-    if x == 0:
+    if x <= 0:
         return None
 
     maria_wins = 0
@@ -39,6 +39,8 @@ def isWinner(x, nums):
     for n in nums:
         if n == 1:
             ben_wins += 1
+            continue
+        if n <= 0:
             continue
 
         numbers = list(range(1, n + 1))
