@@ -49,14 +49,13 @@ def isWinner(x: int, nums: List[int]) -> str:
         current_player = "Maria"
         # loop in the range
         while remaining:
-            if len(remaining) != 1:
-                for prime in numbers_primes:
-                    if prime in remaining:
-                        remaining = [num for num in remaining if num % prime != 0]
-                        if current_player == "Maria":
-                            current_player = "Ben"
-                        else:
-                            current_player = "Maria"
+            for prime in numbers_primes:
+                if prime in remaining:
+                    remaining = [num for num in remaining if num % prime != 0]
+                    if current_player == "Maria":
+                        current_player = "Ben"
+                    else:
+                        current_player = "Maria"
             else:
                 if current_player == "Maria":
                     ben_wins += 1
