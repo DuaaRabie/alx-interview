@@ -30,6 +30,7 @@ def isWinner(x, nums):
         return None
     if x == 0:
         return None
+
     maria_wins = 0
     ben_wins = 0
     # counts the turns
@@ -58,7 +59,6 @@ def isWinner(x, nums):
                     ben_wins += 1
                 else:
                     maria_wins += 1
-                break
 
     if maria_wins > ben_wins:
         return "Maria"
