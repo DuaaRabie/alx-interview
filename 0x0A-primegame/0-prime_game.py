@@ -25,7 +25,7 @@ def sieve_of_eratosthenes(n):
     return [p for p in range(2, n + 1) if prime[p]]
 
 
-def isWinner(x: int, nums: List) -> str:
+def isWinner(x: int, nums: List[int]) -> str:
     """ get the winner"""
     if nums is None:
         return None
