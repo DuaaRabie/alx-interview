@@ -26,7 +26,7 @@ def sieve_of_eratosthenes(n):
 
 def isWinner(x, nums):
     """ get the winner"""
-    if nums is None:
+    if nums is None or nums == []:
         return None
     if x <= 0:
         return None
