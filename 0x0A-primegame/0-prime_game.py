@@ -27,7 +27,7 @@ def sieve_of_eratosthenes(n):
 
 def isWinner(x: int, nums: List[int]) -> str:
     """ get return winner Ben or Maria or None"""
-    if nums is None:
+    if nums is None or len(nums) == 0:
         return None
     if x <= 0:
         return None
