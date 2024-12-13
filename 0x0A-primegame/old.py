@@ -1,65 +1,67 @@
 #!/usr/bin/python3
 """Prime Game"""
+from typing import List
 
 
-def isWinner(x, nums):
-    """get a list of primes up to 10000 using the Sieve of Eratosthenes"""
-    def sieve_of_eratosthenes(limit):
-        primes = [True] * (limit + 1)
-        primes[0], primes[1] = False, False
-        for i in range(2, int(limit ** 0.5) + 1):
-            if primes[i]:
-                for j in range(i * i, limit + 1, i):
-                    primes[j] = False
-        return [i for i in range(2, limit + 1) if primes[i]]
+def sieve_of_eratosthenes(n):
+    """ get prime numbers:
+    Create a boolean array
+    "prime[0..n]" and initialize
+    all entries it as true.
+    A value in prime[i] will
+    finally be false if i is
+    Not a prime, else true. """
+    prime = [True for i in range(n+1)]
+    prime[0], prime[1] = False, False
+    p = 2
+    while (p * p <= n):
+        # If prime[p] is not
+        # changed, then it is a prime
+        if (prime[p] is True):
+            # Update all multiples of p
+            for i in range(p * p, n+1, p):
+                prime[i] = False
+        p += 1
+    return [p for p in range(2, n + 1) if prime[p]]
 
-    # Generate all primes up to 10000
-    max_n = 10000
-    primes_up_to_max = sieve_of_eratosthenes(max_n)
 
-    def play_game(n):
-        """Function to simulate the game for a given n"""
-        if n == 1:
-            return "Ben"  # Maria cannot play, so Ben wins
-        # Create the list of numbers from 1 to n
-        # True means the number is still in the game
-        numbers = [True] * (n + 1)
+def isWinner(x: int, nums: List[int]) -> str:
+    """ get return winner Ben or Maria or None"""
+    if nums is None or len(nums) == 0:
+        return None
+    if x <= 0:
+        return None
 
-        # Count of rounds won
-        turn = 0  # 0 for Maria's turn, 1 for Ben's turn
-
-        # Simulate the game
-        for prime in primes_up_to_max:
-            if prime > n:
-                break
-            # If the prime is still available to be picked
-            if numbers[prime]:
-                # Player picks this prime
-                for multiple in range(prime, n + 1, prime):
-                    # Remove the prime and its multiples
-                    numbers[multiple] = False
-                # Alternate turns between Maria and Ben
-                turn = 1 - turn
-
-        # If turn is 0 after the loop,
-        # then Ben couldn't make a move, and Maria wins
-        if turn == 0:
-            return "Maria"
-        else:
-            return "Ben"
-
-    # Count the wins for Maria and Ben
     maria_wins = 0
     ben_wins = 0
-
+    # counts the turns
+    nums = nums[:x]
+    # loop in the nums
     for n in nums:
-        winner = play_game(n)
-        if winner == "Maria":
-            maria_wins += 1
-        elif winner == "Ben":
+        if n == 1:
             ben_wins += 1
+            continue
+        if n <= 0:
+            continue
 
-    # Determine who has the most wins
+        numbers_primes = sieve_of_eratosthenes(n)
+        remaining = list(range(1, n + 1))
+        current_player = "Maria"
+        # loop in the range
+        while remaining:
+            for prime in numbers_primes:
+                if prime in remaining:
+                    remaining = [num for num in remaining if num % prime != 0]
+                    if current_player == "Maria":
+                        current_player = "Ben"
+                    else:
+                        current_player = "Maria"
+            if current_player == "Maria":
+                ben_wins += 1
+            else:
+                maria_wins += 1
+            break
+
     if maria_wins > ben_wins:
         return "Maria"
     elif ben_wins > maria_wins:
