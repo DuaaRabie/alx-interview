@@ -30,7 +30,7 @@ def isWinner(x: int, nums: List[int]) -> str:
     ben_wins = 0
     # counts the turns
     nums = nums[:x]
-    numbers_primes = sieve_of_eratosthenes(max(n))
+    numbers_primes = sieve_of_eratosthenes(max(nums))
     # loop in the nums
     for n in nums:
         if n == 1:
