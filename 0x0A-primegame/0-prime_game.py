@@ -37,7 +37,7 @@ def isWinner(x, nums):
     # loop in the nums
     for n in nums:
         if n == 1:
-            #ben_wins += 1
+            ben_wins += 1
             continue
 
         numbers = list(range(1, n + 1))
