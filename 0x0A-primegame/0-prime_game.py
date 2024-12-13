@@ -4,13 +4,7 @@ from typing import List
 
 
 def sieve_of_eratosthenes(n):
-    """ get prime numbers:
-    Create a boolean array
-    "prime[0..n]" and initialize
-    all entries it as true.
-    A value in prime[i] will
-    finally be false if i is
-    Not a prime, else true. """
+    """ get prime numbers """
     prime = [True for i in range(n+1)]
     prime[0], prime[1] = False, False
     p = 2
@@ -36,6 +30,7 @@ def isWinner(x: int, nums: List[int]) -> str:
     ben_wins = 0
     # counts the turns
     nums = nums[:x]
+    numbers_primes = sieve_of_eratosthenes(max(n))
     # loop in the nums
     for n in nums:
         if n == 1:
@@ -44,7 +39,6 @@ def isWinner(x: int, nums: List[int]) -> str:
         if n <= 0:
             continue
 
-        numbers_primes = sieve_of_eratosthenes(n)
         remaining = list(range(1, n + 1))
         current_player = "Maria"
         # loop in the range
